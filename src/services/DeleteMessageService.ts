@@ -99,7 +99,8 @@ export default class DeleteMessageService {
         await this.telegramDeleteMessage(message.replyToMsgId, pair, replyMessage.senderId?.eq(this.tgBot.me.id));
         try {
           // 撤回 TG 的
-          await pair.tg.deleteMessages(message.replyToMsgId);
+          // await pair.tg.deleteMessages(message.replyToMsgId);
+          await pair.tg.sendMessage(`<i>撤回成功</i>`);
         }
         catch (e) {
           await pair.tg.sendMessage(`<i>删除消息失败</i>：${e.message}`);
