@@ -38,7 +38,7 @@ export default class Telegram {
           socksType: 5,
           ip: process.env.PROXY_IP,
           port: parseInt(process.env.PROXY_PORT),
-          userId:  process.env.USERID,
+          username:  process.env.USERID,
           password: process.env.PASSWORD
         } : undefined,
       },
