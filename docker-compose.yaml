@@ -29,3 +29,6 @@ services:
       # 如果需要通过代理联网，那么设置下面两个变量
       #- PROXY_IP=
       #- PROXY_PORT=
+      # 代理用户名和密码
+      #- USER_ID=
+      #- PASSWORD=
