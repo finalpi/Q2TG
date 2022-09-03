@@ -30,5 +30,5 @@ services:
       #- PROXY_IP=
       #- PROXY_PORT=
       # 代理用户名和密码
-      #- USER_ID=
+      #- USERID=
       #- PASSWORD=
