@@ -186,7 +186,8 @@ export default class ForwardService {
                     .catch(e => this.log.error('上传消息记录到 Cloudflare 失败', e));
                 }
                 catch (e) {
-                  message = '[<i>转发多条消息（无法获取）${e}</i>]';
+                  this.log.error('从 QQ 到 TG 的消息转发失败', e);
+                  message = '[<i>转发多条消息（无法获取</i>]\n${e}';
                 }
                 break;
             }
