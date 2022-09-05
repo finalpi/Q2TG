@@ -173,8 +173,8 @@ export default class ForwardService {
               case 'forward':
                 try {
                   const messages = await pair.qq.getForwardMsg(result.resId);
-                  this.log.trace('firset',messages)
-                  this.log.trace('firset',result.resId)
+                  this.log.error('firset',messages)
+                  this.log.error('result_resID',result.resId)
                   message = helper.generateForwardBrief(messages);
                   const hash = md5Hex(result.resId);
                   buttons.push(Button.url('📃查看', `${process.env.CRV_API}/?hash=${hash}`));
