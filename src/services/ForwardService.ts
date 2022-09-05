@@ -191,15 +191,16 @@ export default class ForwardService {
                     }
                   };
                   const messages = await pair.qq.getForwardMsg(result.resId);
-                  await build(messages,pair,result.resId);
-                  // message = helper.generateForwardBrief(messages);
+                  let msg = JSON.parse( JSON.stringify(messages) )
+                  await build(msg,pair,result.resId);
+                  message = helper.generateForwardBrief(messages);
                   const hash = md5Hex(result.resId);
                   buttons.push(Button.url('📃查看', `${process.env.CRV_API}/?hash=${hash}`));
                   // 传到 Cloudflare
                   axios.post(`${process.env.CRV_API}/add`, {
                     auth: process.env.CRV_KEY,
                     key: hash,
-                    data: messages,
+                    data: msg,
                   })
                     .then(data => this.log.trace('上传消息记录到 Cloudflare', data.data))
                     .catch(e => this.log.error('上传消息记录到 Cloudflare 失败', e));
