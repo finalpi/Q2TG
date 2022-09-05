@@ -172,14 +172,27 @@ export default class ForwardService {
                 break;
               case 'forward':
                 try {
+                  const getName = function(xmlStr) {
+                    let index = xmlStr.indexOf("m_fileName=\"")
+                    let lastIndex = xmlStr.indexOf(" action=\"viewMultiMsg\"")
+                    let name = xmlStr.substring(index+12,lastIndex-1)
+                    return name;
+                  };
+                  const build = async (arr,obj,resId) => {
+                    for (const ele of arr){
+                      for (const el of ele.message){
+                        if (el.type == 'xml'){
+                          let tepName = getName(el.data)
+                          let a = await obj.qq.getForwardMsg(resId,tepName)
+                          el.data = a
+                          await build(a,obj,resId)
+                        }
+                      }
+                    }
+                  };
                   const messages = await pair.qq.getForwardMsg(result.resId);
-                  this.log.error('firset',messages);
-                  this.log.error('firset',JSON.stringify(messages));
-                  this.log.error('result_resID',result.resId);
-                  for (const message of messages) {
-                    this.log.error('firset',message.message);
-                  }
-                  message = helper.generateForwardBrief(messages);
+                  await build(messages,pair,result.resId);
+                  // message = helper.generateForwardBrief(messages);
                   const hash = md5Hex(result.resId);
                   buttons.push(Button.url('📃查看', `${process.env.CRV_API}/?hash=${hash}`));
                   // 传到 Cloudflare
@@ -193,7 +206,7 @@ export default class ForwardService {
                 }
                 catch (e) {
                   this.log.error('从 QQ 到 TG 的消息转发失败', e);
-                  message = '[<i>转发多条消息（无法获取</i>]\n${e}';
+                  message = '[<i>转发多条消息（无法获取</i>]\n';
                 }
                 break;
             }
